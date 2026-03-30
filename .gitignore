@@ -1,5 +1,7 @@
 # Dependencies
 node_modules
+.pnp
+.pnp.js
 
 # Next.js
 .next/
@@ -29,7 +31,6 @@ lerna-debug.log*
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
@@ -37,4 +38,33 @@ lerna-debug.log*
 *.sw?
 
 # OS
+.DS_Store
 Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Testing
+coverage
+.nyc_output
+
+# Debug
+*.pem
+
+# Turbopack
+.turbo
+
+# Package managers
+bun.lockb
+yarn.lock
+
+# Misc
+*.swp
+*.swo
+*~

@@ -71,8 +71,8 @@ export const Header = () => {
         {/* Logo */}
         <div className="flex items-center gap-4">
           <AppLink href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <CrownLogo className="w-7 h-7 text-accent" />
-            <h1 className="text-2xl font-bold italic text-accent tracking-tight cursor-pointer">
+            <img src="/assets/logo.svg" alt="Royal Flush" className="h-8 w-auto" />
+            <h1 className="text-2xl font-bold text-accent tracking-wide cursor-pointer uppercase" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
               Royal Flush
             </h1>
           </AppLink>

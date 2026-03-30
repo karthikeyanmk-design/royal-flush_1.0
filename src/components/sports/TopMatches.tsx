@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight, Trophy, Play, BarChart2, Users } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { BetSelection } from "@/views/Sports";
@@ -53,6 +53,13 @@ interface TopMatchesProps {
 
 export const TopMatches = ({ onSelectOdd, isSelected }: TopMatchesProps) => {
   const [loading, setLoading] = useState(true);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: "left" | "right") => {
+    if (!scrollRef.current) return;
+    const amount = scrollRef.current.clientWidth * 0.6;
+    scrollRef.current.scrollBy({ left: direction === "left" ? -amount : amount, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1500);
@@ -67,16 +74,16 @@ export const TopMatches = ({ onSelectOdd, isSelected }: TopMatchesProps) => {
           <h3 className="text-sm md:text-base font-semibold">Top Matches</h3>
         </div>
         <div className="flex items-center gap-1 md:gap-2">
-          <button className="p-1 md:p-1.5 bg-secondary hover:bg-muted rounded-md transition-colors">
+          <button onClick={() => scroll("left")} className="p-1 md:p-1.5 bg-secondary hover:bg-muted rounded-md transition-colors">
             <ChevronLeft className="w-3.5 h-3.5 md:w-4 md:h-4" />
           </button>
-          <button className="p-1 md:p-1.5 bg-secondary hover:bg-muted rounded-md transition-colors">
+          <button onClick={() => scroll("right")} className="p-1 md:p-1.5 bg-secondary hover:bg-muted rounded-md transition-colors">
             <ChevronRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
           </button>
         </div>
       </div>
 
-      <div className="flex gap-2 md:gap-3 overflow-x-auto scrollbar-hide pb-2">
+      <div ref={scrollRef} className="flex gap-2 md:gap-3 overflow-x-auto scrollbar-hide pb-2">
         {loading
           ? Array.from({ length: 3 }).map((_, i) => (
               <Skeleton key={i} className="flex-shrink-0 w-[300px] md:w-[340px] h-[160px] md:h-[180px] rounded-lg" />

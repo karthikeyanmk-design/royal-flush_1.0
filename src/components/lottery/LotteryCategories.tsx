@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight, Ticket } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -21,6 +21,13 @@ const categories: LotteryCategory[] = [
 
 export const LotteryCategories = () => {
   const [loading, setLoading] = useState(true);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: "left" | "right") => {
+    if (!scrollRef.current) return;
+    const amount = scrollRef.current.clientWidth * 0.6;
+    scrollRef.current.scrollBy({ left: direction === "left" ? -amount : amount, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1000);
@@ -35,16 +42,16 @@ export const LotteryCategories = () => {
           <h3 className="text-base font-semibold">Lottery Categories</h3>
         </div>
         <div className="flex items-center gap-1">
-          <button className="p-1.5 bg-secondary hover:bg-muted rounded transition-colors">
+          <button onClick={() => scroll("left")} className="p-1.5 bg-secondary hover:bg-muted rounded transition-colors">
             <ChevronLeft className="w-3.5 h-3.5" />
           </button>
-          <button className="p-1.5 bg-secondary hover:bg-muted rounded transition-colors">
+          <button onClick={() => scroll("right")} className="p-1.5 bg-secondary hover:bg-muted rounded transition-colors">
             <ChevronRight className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
 
-      <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
+      <div ref={scrollRef} className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
         {loading
           ? Array.from({ length: 5 }).map((_, i) => (
               <div key={i} className="flex-shrink-0 w-[160px] md:w-[180px]">

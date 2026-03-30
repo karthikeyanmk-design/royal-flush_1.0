@@ -4,7 +4,7 @@ import { Sidebar } from "@/components/Sidebar";
 import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
 import { SearchBar } from "@/components/SearchBar";
-import { StartPlaying } from "@/components/StartPlaying";
+// StartPlaying cards are now integrated into HeroSection
 import { TrendingGames } from "@/components/TrendingGames";
 import { TrendingSports } from "@/components/TrendingSports";
 import { Promotions } from "@/components/Promotions";
@@ -34,10 +34,9 @@ const Index = () => {
       >
         <Header />
         
+        <HeroSection />
         <main className="max-w-6xl mx-auto px-4 md:px-0 pb-20 md:pb-0">
-          <HeroSection />
           <SearchBar />
-          <StartPlaying />
           <TrendingGames />
           <TrendingSports />
           <Promotions />

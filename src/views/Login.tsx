@@ -57,8 +57,8 @@ const Login = () => {
             <Card className="w-full max-w-md bg-card border-border">
               <CardContent className="pt-8 pb-6 px-6">
                 <div className="flex flex-col items-center mb-6">
-                  <CrownLogo className="w-10 h-10 text-accent mb-2" />
-                  <h1 className="text-2xl font-bold italic text-accent">Royal Flush</h1>
+                  <img src="/assets/logo.svg" alt="Royal Flush" className="h-12 w-auto mb-2" />
+                  <h1 className="text-2xl font-bold text-accent tracking-wide uppercase" style={{ fontFamily: "'Rajdhani', sans-serif" }}>Royal Flush</h1>
                   <p className="text-sm text-muted-foreground mt-1">Sign in to your account</p>
                 </div>
 

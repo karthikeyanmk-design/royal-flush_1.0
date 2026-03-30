@@ -1,4 +1,5 @@
 "use client";
+import { useRef } from "react";
 import { ChevronLeft, ChevronRight, Gift } from "lucide-react";
 const promo1 = "/assets/promo-1.png";
 const promo2 = "/assets/promo-2.png";
@@ -23,6 +24,14 @@ const promotions = [{
   image: promo3
 }];
 export const Promotions = () => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: "left" | "right") => {
+    if (!scrollRef.current) return;
+    const amount = scrollRef.current.clientWidth * 0.6;
+    scrollRef.current.scrollBy({ left: direction === "left" ? -amount : amount, behavior: "smooth" });
+  };
+
   return <section className="px-3 md:px-4 py-2 md:py-4">
       <div className="flex items-center justify-between mb-2 md:mb-4">
         <div className="flex items-center gap-2">
@@ -30,17 +39,17 @@ export const Promotions = () => {
           <h3 className="text-sm md:text-lg font-semibold">Promotions</h3>
         </div>
         <div className="flex items-center gap-1 md:gap-2">
-          <button className="p-1 md:p-1.5 bg-secondary hover:bg-muted rounded-md transition-colors">
+          <button onClick={() => scroll("left")} className="p-1 md:p-1.5 bg-secondary hover:bg-muted rounded-md transition-colors">
             <ChevronLeft className="w-3.5 h-3.5 md:w-4 md:h-4" />
           </button>
-          <button className="p-1 md:p-1.5 bg-secondary hover:bg-muted rounded-md transition-colors">
+          <button onClick={() => scroll("right")} className="p-1 md:p-1.5 bg-secondary hover:bg-muted rounded-md transition-colors">
             <ChevronRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
           </button>
         </div>
       </div>
 
       {/* Mobile: horizontal scroll, Desktop: 3-column grid */}
-      <div className="flex md:grid md:grid-cols-3 gap-2 md:gap-4 overflow-x-auto md:overflow-visible scrollbar-hide snap-x snap-mandatory md:snap-none -mx-3 px-3 md:mx-0 md:px-0">
+      <div ref={scrollRef} className="flex md:grid md:grid-cols-3 gap-2 md:gap-4 overflow-x-auto md:overflow-visible scrollbar-hide snap-x snap-mandatory md:snap-none -mx-3 px-3 md:mx-0 md:px-0">
         {promotions.map(promo => (
           <div 
             key={promo.id} 

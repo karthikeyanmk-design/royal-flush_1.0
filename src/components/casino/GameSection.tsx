@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight, LucideIcon } from "lucide-react";
 import { GameCardSkeleton } from "@/components/GameCardSkeleton";
 import { AppLink } from "@/lib/navigation";
@@ -34,6 +34,13 @@ export const GameSection = ({
   showPlayers = true
 }: GameSectionProps) => {
   const [loading, setLoading] = useState(true);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: "left" | "right") => {
+    if (!scrollRef.current) return;
+    const amount = scrollRef.current.clientWidth * 0.6;
+    scrollRef.current.scrollBy({ left: direction === "left" ? -amount : amount, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1200 + Math.random() * 600);
@@ -48,16 +55,16 @@ export const GameSection = ({
           <h3 className="text-sm md:text-base font-semibold">{title}</h3>
         </div>
         <div className="flex items-center gap-1 md:gap-2">
-          <button className="p-1 md:p-1.5 bg-secondary hover:bg-muted rounded-md transition-colors">
+          <button onClick={() => scroll("left")} className="p-1 md:p-1.5 bg-secondary hover:bg-muted rounded-md transition-colors">
             <ChevronLeft className="w-3.5 h-3.5 md:w-4 md:h-4" />
           </button>
-          <button className="p-1 md:p-1.5 bg-secondary hover:bg-muted rounded-md transition-colors">
+          <button onClick={() => scroll("right")} className="p-1 md:p-1.5 bg-secondary hover:bg-muted rounded-md transition-colors">
             <ChevronRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
           </button>
         </div>
       </div>
 
-      <div className="flex gap-1.5 md:gap-2 overflow-x-auto scrollbar-hide pb-1 md:pb-2">
+      <div ref={scrollRef} className="flex gap-1.5 md:gap-2 overflow-x-auto scrollbar-hide pb-1 md:pb-2">
         {loading
           ? Array.from({ length: 7 }).map((_, i) => <GameCardSkeleton key={i} />)
           : games.map((game) => (
