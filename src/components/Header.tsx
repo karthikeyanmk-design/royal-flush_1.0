@@ -106,7 +106,7 @@ export const Header = () => {
 
                 {/* Dropdown Menu */}
                 {dropdownOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-[260px] bg-card border border-border rounded-xl shadow-xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="absolute right-0 top-full mt-2 w-[220px] sm:w-[260px] bg-card border border-border rounded-xl shadow-xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                     {/* VIP Progress Card */}
                     <div className="p-4 border-b border-border">
                       <p className="text-xs text-muted-foreground mb-2">Your VIP Progress</p>

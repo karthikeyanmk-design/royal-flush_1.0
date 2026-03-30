@@ -5,6 +5,10 @@ import "@/index.css";
 export const metadata: Metadata = {
   title: "Royal Flush | Where Champions Play",
   description: "Royal Flush - The ultimate gaming platform. Casino, Sports Betting, Lottery and more.",
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

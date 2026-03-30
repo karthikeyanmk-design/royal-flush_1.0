@@ -363,6 +363,18 @@ export const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
               </DropdownMenu>
             </li>
           </ul>
+
+          {/* Brand Image */}
+          <div className={cn("mt-auto pt-4 pb-3", isOpen ? "px-2" : "px-1.5")}>
+            <img
+              src="/assets/Royalflushimg.webp"
+              alt="Royal Flush"
+              className={cn(
+                "w-full rounded-lg object-contain opacity-80",
+                !isOpen && "w-10 mx-auto"
+              )}
+            />
+          </div>
         </nav>
       </aside>
 

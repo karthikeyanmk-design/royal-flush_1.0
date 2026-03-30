@@ -51,10 +51,12 @@ export const Footer = () => {
 
       <div className="mt-8 pt-6 border-t border-border">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <img src="/assets/logo.svg" alt="Royal Flush" className="h-8 w-auto" />
-            <span className="text-2xl font-bold text-accent tracking-wide uppercase" style={{ fontFamily: "'Rajdhani', sans-serif" }}>Royal Flush</span>
-            <span className="text-xs text-muted-foreground">All Rights Reserved © 2026 Royal Flush - Website Designed by <a href="https://tech-tide.in" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Tech-tide.in</a></span>
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+            <div className="flex items-center gap-2">
+              <img src="/assets/logo.svg" alt="Royal Flush" className="h-6 sm:h-8 w-auto" />
+              <span className="text-lg sm:text-2xl font-bold text-accent tracking-wide uppercase" style={{ fontFamily: "'Rajdhani', sans-serif" }}>Royal Flush</span>
+            </div>
+            <span className="text-[10px] sm:text-xs text-muted-foreground text-center sm:text-left">All Rights Reserved © 2026 Royal Flush - Website Designed by <a href="https://tech-tide.in" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Tech-tide.in</a></span>
           </div>
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-secondary rounded flex items-center justify-center text-xs">🔞</div>

@@ -73,7 +73,7 @@ export const MobileNav = () => {
             const active = isActive(item);
             
             const content = (
-              <div className="relative flex flex-col items-center gap-1 px-4 py-2 min-w-[56px]">
+              <div className="relative flex flex-col items-center gap-1 px-2 py-2 min-w-[48px]">
                 <div 
                   className={cn(
                     "absolute top-0 left-1/2 -translate-x-1/2 h-[2px] w-8 rounded-b-full transition-all duration-200",

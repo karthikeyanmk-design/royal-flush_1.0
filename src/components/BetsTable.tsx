@@ -73,48 +73,48 @@ export const BetsTable = () => {
   const betsData = betsMap[activeTab] || casinoBets;
 
   return (
-    <section className="px-4 py-6">
-      <div className="inline-flex items-center bg-background border border-border rounded-full p-1.5 mb-6">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={cn(
-              "px-6 py-2.5 rounded-full text-sm font-semibold transition-colors",
-              activeTab === tab.id
-                ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:text-foreground"
-            )}
-          >
-            {tab.label}
-          </button>
-        ))}
+    <section className="px-3 md:px-4 py-4 md:py-6">
+      {/* Tabs — scrollable on mobile */}
+      <div className="overflow-x-auto scrollbar-hide mb-4 md:mb-6">
+        <div className="inline-flex items-center bg-background border border-border rounded-full p-1">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={cn(
+                "px-3 md:px-6 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-semibold transition-all duration-200 whitespace-nowrap",
+                activeTab === tab.id
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
       </div>
 
-      <div className="overflow-hidden">
+      {/* Desktop Table */}
+      <div className="hidden md:block overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-border">
-                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground w-[180px]">
-                  {activeTab === "race" ? "Game" : "Game"}
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground w-[200px]">
-                  {activeTab === "race" ? "Player" : "User"}
-                </th>
-                <th className="px-4 py-3 text-center text-xs font-medium text-muted-foreground w-[120px]">
-                  {activeTab === "race" ? "Rank" : "Time"}
-                </th>
-                <th className="px-4 py-3 text-center text-xs font-medium text-muted-foreground w-[160px]">
-                  {activeTab === "race" ? "Wagered" : "Bet Amount"}
-                </th>
-                <th className="px-4 py-3 text-center text-xs font-medium text-muted-foreground w-[120px]">Multiplier</th>
-                <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground w-[160px]">Payout</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground">Game</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground">{activeTab === "race" ? "Player" : "User"}</th>
+                <th className="px-4 py-3 text-center text-xs font-medium text-muted-foreground">{activeTab === "race" ? "Rank" : "Time"}</th>
+                <th className="px-4 py-3 text-center text-xs font-medium text-muted-foreground">{activeTab === "race" ? "Wagered" : "Bet Amount"}</th>
+                <th className="px-4 py-3 text-center text-xs font-medium text-muted-foreground">Multiplier</th>
+                <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground">Payout</th>
               </tr>
             </thead>
             <tbody>
               {betsData.map((bet, index) => (
-                <tr key={index} className="border-b border-border hover:bg-secondary transition-colors">
+                <tr
+                  key={`${activeTab}-${index}`}
+                  className="border-b border-border hover:bg-secondary/50 transition-colors animate-in fade-in slide-in-from-bottom-1 duration-300"
+                  style={{ animationDelay: `${index * 50}ms`, animationFillMode: "both" }}
+                >
                   <td className="px-4 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded bg-secondary flex items-center justify-center">
@@ -154,6 +154,45 @@ export const BetsTable = () => {
             </tbody>
           </table>
         </div>
+      </div>
+
+      {/* Mobile Card Layout */}
+      <div className="md:hidden space-y-2">
+        {betsData.map((bet, index) => (
+          <div
+            key={`${activeTab}-m-${index}`}
+            className="bg-secondary/30 rounded-lg p-3 border border-border/50 animate-in fade-in slide-in-from-bottom-1 duration-300"
+            style={{ animationDelay: `${index * 50}ms`, animationFillMode: "both" }}
+          >
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded bg-secondary flex items-center justify-center">
+                  <GameIcon game={bet.game} tab={activeTab} />
+                </div>
+                <span className="text-sm font-medium text-foreground">{bet.game}</span>
+              </div>
+              <span className="text-[10px] text-muted-foreground">{bet.time}</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs text-muted-foreground">
+                  {bet.user === "Hidden" ? "Hidden" : bet.user}
+                </span>
+                <span className="text-xs text-muted-foreground">·</span>
+                <div className="flex items-center gap-1">
+                  <span className="text-xs text-foreground">{bet.betAmount}</span>
+                  <CurrencyIcon currency={bet.currency} />
+                </div>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-[10px] text-muted-foreground">{bet.multiplier}</span>
+                <span className={cn("text-xs font-semibold", bet.payoutColor === "red" ? "text-red-500" : "text-stake-green")}>
+                  {bet.payout}
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );

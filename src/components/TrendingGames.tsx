@@ -108,7 +108,7 @@ export const TrendingGames = () => {
                 <AppLink
                   key={game.id}
                   href={`/casino/game/${slug}`}
-                  className="flex-shrink-0 w-[110px] md:w-[136px] group"
+                  className="flex-shrink-0 w-[110px] md:w-[136px] group hover-lift"
                 >
                   <div className="relative rounded-lg overflow-hidden mb-1">
                     <img

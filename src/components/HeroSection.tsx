@@ -20,8 +20,8 @@ export const HeroSection = () => {
         <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-[#111923] to-background pointer-events-none" />
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center md:items-stretch gap-6 md:gap-10">
           {/* Left Side — Text + CTA */}
-          <div className="flex-1 flex flex-col justify-center text-center md:text-left">
-            <h2 className="text-2xl md:text-4xl font-bold leading-tight text-foreground mb-5 md:mb-6">
+          <div className="flex-1 flex flex-col justify-center text-center md:text-left animate-fade-up">
+            <h2 className="text-xl sm:text-2xl md:text-4xl font-bold leading-tight text-foreground mb-5 md:mb-6">
               The World&apos;s Largest Online
               <br />
               Casino and Sportsbook
@@ -72,9 +72,9 @@ export const HeroSection = () => {
           </div>
 
           {/* Right Side — Casino & Sports Cards */}
-          <div className="w-full md:w-auto flex gap-3 md:gap-4">
+          <div className="w-full md:w-auto flex gap-3 md:gap-4 animate-slide-in-right" style={{ animationDelay: "150ms" }}>
             {/* Casino Card */}
-            <AppLink href="/casino" className="relative flex-1 md:w-[220px] group cursor-pointer rounded-xl overflow-hidden border border-border/50 hover:border-blue-500/30 transition-all">
+            <AppLink href="/casino" className="relative flex-1 md:w-[220px] group cursor-pointer rounded-xl overflow-hidden border border-border/50 hover:border-blue-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10">
               <img
                 src={casinoHero}
                 alt="Casino"
@@ -95,7 +95,7 @@ export const HeroSection = () => {
             </AppLink>
 
             {/* Sports Card */}
-            <AppLink href="/sports" className="relative flex-1 md:w-[220px] group cursor-pointer rounded-xl overflow-hidden border border-border/50 hover:border-green-500/30 transition-all">
+            <AppLink href="/sports" className="relative flex-1 md:w-[220px] group cursor-pointer rounded-xl overflow-hidden border border-border/50 hover:border-green-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/10">
               <img
                 src={sportsHero}
                 alt="Sports"

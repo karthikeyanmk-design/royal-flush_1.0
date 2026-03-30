@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
@@ -16,6 +16,25 @@ import { cn } from "@/lib/utils";
 
 const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const mainRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+    );
+
+    const sections = mainRef.current?.querySelectorAll(".section-animate");
+    sections?.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -35,13 +54,13 @@ const Index = () => {
         <Header />
         
         <HeroSection />
-        <main className="max-w-6xl mx-auto px-4 md:px-0 pb-20 md:pb-0">
-          <SearchBar />
-          <TrendingGames />
-          <TrendingSports />
-          <Promotions />
-          <BetsTable />
-          <FAQ />
+        <main ref={mainRef} className="max-w-6xl mx-auto px-4 md:px-0 pb-20 md:pb-0">
+          <div className="section-animate"><SearchBar /></div>
+          <div className="section-animate"><TrendingGames /></div>
+          <div className="section-animate"><TrendingSports /></div>
+          <div className="section-animate"><Promotions /></div>
+          <div className="section-animate"><BetsTable /></div>
+          <div className="section-animate"><FAQ /></div>
         </main>
         <Footer />
       </div>
