@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { MobileNav } from "@/components/MobileNav";
 import { CasinoBetsTable } from "@/components/casino/CasinoBetsTable";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
@@ -53,6 +52,61 @@ const allGames: Record<string, GameInfo> = {
   "crazy-time": { name: "Crazy Time", slug: "crazy-time", image: game1, publisher: "Evolution", players: 2340, category: "live", description: "The ultimate game show with 4 exciting bonus rounds!", minBet: 0.1, maxBet: 25000, rtp: 95.5 },
   "lightning-roulette": { name: "Lightning Roulette", slug: "lightning-roulette", image: game3, publisher: "Evolution", players: 1120, category: "live", description: "Classic roulette with random lightning multipliers up to 500x!", minBet: 0.2, maxBet: 10000, rtp: 97.3 },
   aviator: { name: "Aviator", slug: "aviator", image: game5, publisher: "Spribe", players: 2100, category: "burst", description: "Watch the plane fly and cash out before it disappears!", minBet: 0.1, maxBet: 10000, rtp: 97 },
+  // Additional Slots
+  "book-of-dead": { name: "Book of Dead", slug: "book-of-dead", image: game6, publisher: "Play'n GO", players: 264, category: "slots", description: "Journey to ancient Egypt with Rich Wilde in this legendary slot!", minBet: 0.1, maxBet: 500, rtp: 96.21 },
+  "starlight-princess": { name: "Starlight Princess", slug: "starlight-princess", image: game7, publisher: "Pragmatic Play", players: 296, category: "slots", description: "Magical princess-themed slot with cascading wins and multipliers!", minBet: 0.2, maxBet: 500, rtp: 96.5 },
+  // Live Casino
+  "blackjack-vip": { name: "Blackjack VIP", slug: "blackjack-vip", image: game2, publisher: "Evolution", players: 890, category: "live", description: "Premium blackjack experience with high stakes and VIP dealers!", minBet: 5, maxBet: 25000, rtp: 99.5 },
+  "baccarat": { name: "Baccarat", slug: "baccarat", image: game4, publisher: "Evolution", players: 654, category: "live", description: "Classic baccarat with professional dealers and elegant gameplay!", minBet: 1, maxBet: 10000, rtp: 98.94 },
+  "dragon-tiger": { name: "Dragon Tiger", slug: "dragon-tiger", image: game5, publisher: "Evolution", players: 432, category: "live", description: "Fast-paced card game — Dragon or Tiger, who wins?", minBet: 0.5, maxBet: 5000, rtp: 96.27 },
+  "mega-ball": { name: "Mega Ball", slug: "mega-ball", image: game6, publisher: "Evolution", players: 567, category: "live", description: "Bingo-style game show with massive multipliers!", minBet: 0.1, maxBet: 10000, rtp: 95.4 },
+  "speed-baccarat": { name: "Speed Baccarat", slug: "speed-baccarat", image: game7, publisher: "Evolution", players: 345, category: "live", description: "Lightning-fast baccarat rounds for the impatient player!", minBet: 1, maxBet: 10000, rtp: 98.94 },
+  "speed-blackjack": { name: "Speed Blackjack", slug: "speed-blackjack", image: game3, publisher: "Evolution", players: 654, category: "live", description: "Fastest blackjack online — decisions in seconds!", minBet: 1, maxBet: 10000, rtp: 99.5 },
+  "infinite-blackjack": { name: "Infinite Blackjack", slug: "infinite-blackjack", image: game5, publisher: "Evolution", players: 432, category: "live", description: "Unlimited seats at the blackjack table!", minBet: 1, maxBet: 5000, rtp: 99.47 },
+  "free-bet-blackjack": { name: "Free Bet Blackjack", slug: "free-bet-blackjack", image: game1, publisher: "Evolution", players: 321, category: "live", description: "Get free double down and split bets!", minBet: 1, maxBet: 5000, rtp: 98.45 },
+  "power-blackjack": { name: "Power Blackjack", slug: "power-blackjack", image: game7, publisher: "Evolution", players: 256, category: "live", description: "Triple and quadruple down for massive payouts!", minBet: 1, maxBet: 5000, rtp: 98.8 },
+  "classic-blackjack": { name: "Classic Blackjack", slug: "classic-blackjack", image: game4, publisher: "Pragmatic Play", players: 198, category: "live", description: "Traditional blackjack with a modern twist!", minBet: 1, maxBet: 5000, rtp: 99.5 },
+  "blackjack-party": { name: "Blackjack Party", slug: "blackjack-party", image: game6, publisher: "Evolution", players: 543, category: "live", description: "Fun party atmosphere with two entertaining hosts!", minBet: 0.5, maxBet: 1000, rtp: 99.29 },
+  "immersive-roulette": { name: "Immersive Roulette", slug: "immersive-roulette", image: game1, publisher: "Evolution", players: 876, category: "live", description: "Multi-camera slow-motion roulette experience!", minBet: 0.5, maxBet: 10000, rtp: 97.3 },
+  "auto-roulette": { name: "Auto Roulette", slug: "auto-roulette", image: game5, publisher: "Evolution", players: 543, category: "live", description: "Automated roulette — fast rounds, no dealer needed!", minBet: 0.1, maxBet: 10000, rtp: 97.3 },
+  "speed-roulette": { name: "Speed Roulette", slug: "speed-roulette", image: game2, publisher: "Evolution", players: 432, category: "live", description: "New round every 25 seconds — non-stop action!", minBet: 0.2, maxBet: 10000, rtp: 97.3 },
+  "double-ball-roulette": { name: "Double Ball Roulette", slug: "double-ball-roulette", image: game6, publisher: "Evolution", players: 321, category: "live", description: "Two balls, double the excitement and winning chances!", minBet: 0.2, maxBet: 5000, rtp: 97.3 },
+  "mega-roulette": { name: "Mega Roulette", slug: "mega-roulette", image: game4, publisher: "Pragmatic Play", players: 567, category: "live", description: "Up to 500x multipliers on random numbers each round!", minBet: 0.1, maxBet: 5000, rtp: 97.3 },
+  "turkish-roulette": { name: "Turkish Roulette", slug: "turkish-roulette", image: game7, publisher: "Evolution", players: 234, category: "live", description: "Roulette with Turkish-speaking dealer!", minBet: 0.2, maxBet: 5000, rtp: 97.3 },
+  "lightning-baccarat": { name: "Lightning Baccarat", slug: "lightning-baccarat", image: game1, publisher: "Evolution", players: 567, category: "live", description: "Random lightning multipliers up to 512x!", minBet: 1, maxBet: 10000, rtp: 98.76 },
+  "no-commission-baccarat": { name: "No Commission Baccarat", slug: "no-commission-baccarat", image: game3, publisher: "Evolution", players: 234, category: "live", description: "Classic baccarat without the banker commission!", minBet: 1, maxBet: 10000, rtp: 98.94 },
+  "baccarat-squeeze": { name: "Baccarat Squeeze", slug: "baccarat-squeeze", image: game5, publisher: "Evolution", players: 432, category: "live", description: "Dramatic card reveal with the classic squeeze!", minBet: 1, maxBet: 10000, rtp: 98.94 },
+  "super-6-baccarat": { name: "Super 6 Baccarat", slug: "super-6-baccarat", image: game6, publisher: "Pragmatic Play", players: 198, category: "live", description: "Baccarat variant with the exciting Super 6 side bet!", minBet: 1, maxBet: 5000, rtp: 98.94 },
+  // Game Shows
+  "monopoly-live": { name: "Monopoly Live", slug: "monopoly-live", image: game2, publisher: "Evolution", players: 1890, category: "live", description: "Spin the wheel and enter the Monopoly bonus world!", minBet: 0.1, maxBet: 10000, rtp: 96.23 },
+  "dream-catcher": { name: "Dream Catcher", slug: "dream-catcher", image: game3, publisher: "Evolution", players: 987, category: "live", description: "Spin the big money wheel for instant wins!", minBet: 0.1, maxBet: 10000, rtp: 96.58 },
+  "deal-or-no-deal": { name: "Deal or No Deal", slug: "deal-or-no-deal", image: game4, publisher: "Evolution", players: 765, category: "live", description: "The classic TV game show — deal or no deal?", minBet: 0.1, maxBet: 10000, rtp: 95.42 },
+  "football-studio": { name: "Football Studio", slug: "football-studio", image: game5, publisher: "Evolution", players: 543, category: "live", description: "Simple card game with a football twist!", minBet: 0.5, maxBet: 5000, rtp: 96.27 },
+  "lightning-dice": { name: "Lightning Dice", slug: "lightning-dice", image: game6, publisher: "Evolution", players: 654, category: "live", description: "Three dice with random lightning multipliers!", minBet: 0.2, maxBet: 5000, rtp: 96.21 },
+  "funky-time": { name: "Funky Time", slug: "funky-time", image: game7, publisher: "Evolution", players: 876, category: "live", description: "Groovy game show with disco-themed bonus rounds!", minBet: 0.1, maxBet: 10000, rtp: 95.49 },
+  // Exclusive
+  "le-rapper": { name: "Le Rapper", slug: "le-rapper", image: game3, publisher: "Exclusive", players: 234, category: "exclusive", description: "Hip-hop themed slot with sick beats and big wins!", minBet: 0.1, maxBet: 500, rtp: 96 },
+  "catastrophe": { name: "Catastrophe", slug: "catastrophe", image: game4, publisher: "Exclusive", players: 456, category: "exclusive", description: "Chaotic fun with explosive multipliers!", minBet: 0.1, maxBet: 500, rtp: 96 },
+  "bank-basher": { name: "Bank Basher", slug: "bank-basher", image: game5, publisher: "Exclusive", players: 321, category: "exclusive", description: "Smash open vaults for hidden treasures!", minBet: 0.1, maxBet: 500, rtp: 96 },
+  "royal-flush-royale": { name: "Royal Flush Royale", slug: "royal-flush-royale", image: game6, publisher: "Exclusive", players: 567, category: "exclusive", description: "Our signature game with royal payouts!", minBet: 0.1, maxBet: 1000, rtp: 97 },
+  "lucky-gems": { name: "Lucky Gems", slug: "lucky-gems", image: game1, publisher: "Exclusive", players: 432, category: "exclusive", description: "Match sparkling gems for dazzling wins!", minBet: 0.1, maxBet: 500, rtp: 96 },
+  "gold-rush": { name: "Gold Rush", slug: "gold-rush", image: game2, publisher: "Exclusive", players: 654, category: "exclusive", description: "Strike gold in this Wild West adventure!", minBet: 0.1, maxBet: 500, rtp: 96 },
+  "diamond-strike": { name: "Diamond Strike", slug: "diamond-strike", image: game7, publisher: "Exclusive", players: 345, category: "exclusive", description: "Find diamonds in the rough for sparkling payouts!", minBet: 0.1, maxBet: 500, rtp: 96 },
+  // Burst
+  "aviamasters": { name: "Aviamasters", slug: "aviamasters", image: game6, publisher: "Royal Flush Original", players: 890, category: "burst", description: "Master the skies and cash out at the right moment!", minBet: 0.1, maxBet: 10000, rtp: 97 },
+  "angry-balls": { name: "Angry Balls", slug: "angry-balls", image: game7, publisher: "Royal Flush Original", players: 567, category: "burst", description: "Bouncing balls with explosive multipliers!", minBet: 0.1, maxBet: 10000, rtp: 97 },
+  "spaceman": { name: "Spaceman", slug: "spaceman", image: game1, publisher: "Pragmatic Play", players: 765, category: "burst", description: "Launch into space and cash out before the astronaut floats away!", minBet: 0.1, maxBet: 10000, rtp: 96.5 },
+  "jetx": { name: "JetX", slug: "jetx", image: game2, publisher: "SmartSoft", players: 543, category: "burst", description: "Bet on the jet and cash out before it explodes!", minBet: 0.1, maxBet: 5000, rtp: 97 },
+  "rocket-x": { name: "Rocket X", slug: "rocket-x", image: game3, publisher: "1x2 Gaming", players: 432, category: "burst", description: "Ride the rocket to massive multipliers!", minBet: 0.1, maxBet: 5000, rtp: 97 },
+  "cappadocia": { name: "Cappadocia", slug: "cappadocia", image: game4, publisher: "SmartSoft", players: 321, category: "burst", description: "Float in a hot air balloon over Cappadocia!", minBet: 0.1, maxBet: 5000, rtp: 97 },
+  // New Releases
+  "zeus-lightning": { name: "Zeus Lightning", slug: "zeus-lightning", image: game7, publisher: "Red Tiger", players: 123, category: "slots", description: "Zeus strikes with lightning bolts and massive wins!", minBet: 0.1, maxBet: 500, rtp: 95.79 },
+  "wild-don": { name: "Wild Don", slug: "wild-don", image: game1, publisher: "Pragmatic Play", players: 87, category: "slots", description: "Join the Wild Don in his quest for riches!", minBet: 0.1, maxBet: 500, rtp: 96.5 },
+  "wicked-brew": { name: "Wicked Brew", slug: "wicked-brew", image: game2, publisher: "Hacksaw Gaming", players: 65, category: "slots", description: "Brew up a wicked potion of wins!", minBet: 0.2, maxBet: 500, rtp: 96.2 },
+  "fortune-tiger": { name: "Fortune Tiger", slug: "fortune-tiger", image: game3, publisher: "PG Soft", players: 234, category: "slots", description: "The fortune tiger brings luck and prosperity!", minBet: 0.1, maxBet: 500, rtp: 96.81 },
+  "mystic-fortune": { name: "Mystic Fortune", slug: "mystic-fortune", image: game4, publisher: "Habanero", players: 156, category: "slots", description: "Unlock mystic powers for fortunate spins!", minBet: 0.1, maxBet: 500, rtp: 96 },
+  "dragons-gold": { name: "Dragon's Gold", slug: "dragons-gold", image: game5, publisher: "Red Tiger", players: 98, category: "slots", description: "Guard the dragon's hoard and claim your share!", minBet: 0.1, maxBet: 500, rtp: 95.72 },
+  "pharaohs-riches": { name: "Pharaoh's Riches", slug: "pharaohs-riches", image: game6, publisher: "Novomatic", players: 187, category: "slots", description: "Explore the pharaoh's tomb for ancient riches!", minBet: 0.1, maxBet: 500, rtp: 95.97 },
 };
 
 interface GameInfo {
@@ -425,7 +479,6 @@ const CasinoGame = ({ slug }: { slug?: string }) => {
         <Footer />
       </div>
 
-      <MobileNav />
     </div>
   );
 };

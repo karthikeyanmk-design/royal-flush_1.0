@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { MobileNav } from "@/components/MobileNav";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { AppLink } from "@/lib/navigation";
@@ -149,7 +148,6 @@ const Affiliates = () => {
         </main>
         <Footer />
       </div>
-      <MobileNav />
     </div>
   );
 };

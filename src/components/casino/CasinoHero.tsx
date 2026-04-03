@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 const promo1 = "/assets/promo-1.png";
 const promo2 = "/assets/promo-2.png";
@@ -37,12 +38,20 @@ export const CasinoHero = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: "left" | "right") => {
+    if (!scrollRef.current) return;
+    const amount = scrollRef.current.clientWidth * 0.6;
+    scrollRef.current.scrollBy({ left: direction === "left" ? -amount : amount, behavior: "smooth" });
+  };
+
   if (loading) {
     return (
       <section className="px-3 md:px-4 py-2 md:py-3">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-3">
+        <div className="flex md:grid md:grid-cols-3 gap-2 md:gap-3 overflow-x-auto md:overflow-visible scrollbar-hide">
           {[1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-28 md:h-32 rounded-lg" />
+            <Skeleton key={i} className="h-28 md:h-32 rounded-lg flex-shrink-0 w-[80vw] md:w-auto" />
           ))}
         </div>
       </section>
@@ -51,11 +60,21 @@ export const CasinoHero = () => {
 
   return (
     <section className="px-3 md:px-4 py-2 md:py-3">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-3">
+      {/* Mobile scroll arrows */}
+      <div className="flex md:hidden items-center justify-end gap-1 mb-2">
+        <button onClick={() => scroll("left")} className="p-1 bg-secondary hover:bg-muted rounded-md transition-colors">
+          <ChevronLeft className="w-3.5 h-3.5" />
+        </button>
+        <button onClick={() => scroll("right")} className="p-1 bg-secondary hover:bg-muted rounded-md transition-colors">
+          <ChevronRight className="w-3.5 h-3.5" />
+        </button>
+      </div>
+
+      <div ref={scrollRef} className="flex md:grid md:grid-cols-3 gap-2 md:gap-3 overflow-x-auto md:overflow-visible scrollbar-hide snap-x snap-mandatory md:snap-none -mx-3 px-3 md:mx-0 md:px-0">
         {promoCards.map((card) => (
           <div
             key={card.id}
-            className="relative rounded-lg overflow-hidden bg-card border border-border cursor-pointer group hover:border-primary/50 transition-colors"
+            className="relative rounded-lg overflow-hidden bg-card border border-border cursor-pointer group hover:border-primary/50 transition-colors flex-shrink-0 w-[80vw] md:w-auto snap-start"
           >
             <div className="flex items-center justify-between p-4">
               {/* Left content */}

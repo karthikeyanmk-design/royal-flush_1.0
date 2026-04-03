@@ -1,6 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
-import { Star, ChevronRight, Tv, Radio } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Star, ChevronLeft, ChevronRight, Tv, Radio } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { BetSelection } from "@/views/Sports";
 
@@ -40,6 +40,13 @@ interface TopPicksProps {
 
 export const TopPicks = ({ onSelectOdd, isSelected }: TopPicksProps) => {
   const [loading, setLoading] = useState(true);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: "left" | "right") => {
+    if (!scrollRef.current) return;
+    const amount = scrollRef.current.clientWidth * 0.6;
+    scrollRef.current.scrollBy({ left: direction === "left" ? -amount : amount, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1600);
@@ -53,26 +60,30 @@ export const TopPicks = ({ onSelectOdd, isSelected }: TopPicksProps) => {
           <Star className="w-4 h-4 text-stake-yellow fill-stake-yellow" />
           <h3 className="text-sm md:text-base font-semibold">Top Picks</h3>
         </div>
-        <button className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
-          View All
-          <ChevronRight className="w-3.5 h-3.5" />
-        </button>
+        <div className="flex items-center gap-1 md:gap-2">
+          <button onClick={() => scroll("left")} className="p-1 md:p-1.5 bg-secondary hover:bg-muted rounded-md transition-colors">
+            <ChevronLeft className="w-3.5 h-3.5 md:w-4 md:h-4" />
+          </button>
+          <button onClick={() => scroll("right")} className="p-1 md:p-1.5 bg-secondary hover:bg-muted rounded-md transition-colors">
+            <ChevronRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
+          </button>
+        </div>
       </div>
 
       {loading ? (
-        <div className="space-y-2">
+        <div className="flex md:grid md:grid-cols-2 gap-2 md:gap-3 overflow-x-auto md:overflow-visible scrollbar-hide">
           {[1, 2].map((i) => (
-            <Skeleton key={i} className="h-24 rounded-lg" />
+            <Skeleton key={i} className="h-24 rounded-lg flex-shrink-0 w-[85vw] md:w-auto" />
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
+        <div ref={scrollRef} className="flex md:grid md:grid-cols-2 gap-2 md:gap-3 overflow-x-auto md:overflow-visible scrollbar-hide snap-x snap-mandatory md:snap-none pb-1">
           {picks.map((pick) => {
             const matchName = `${pick.team1} vs ${pick.team2}`;
             return (
               <div
                 key={pick.id}
-                className="bg-card rounded-lg border border-border p-3 hover:border-primary/50 transition-colors"
+                className="bg-card rounded-lg border border-border p-3 hover:border-primary/50 transition-colors flex-shrink-0 w-[85vw] md:w-auto snap-start"
               >
                 {/* Header */}
                 <div className="flex items-center justify-between mb-2">

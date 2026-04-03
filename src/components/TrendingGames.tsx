@@ -14,54 +14,63 @@ const game7 = "/assets/game-7.png";
 const games = [{
   id: 1,
   name: "Sweet Bonanza 1000",
+  slug: "sweet-bonanza",
   image: game1,
   players: 575,
   tag: "PRAGMATIC PLAY"
 }, {
   id: 2,
   name: "Gates of Olympus 1000",
+  slug: "gates-of-olympus",
   image: game2,
   players: 538,
   tag: "PRAGMATIC PLAY"
 }, {
   id: 3,
   name: "Sugar Rush 1000",
+  slug: "sugar-rush",
   image: game3,
   players: 406,
   tag: "PRAGMATIC PLAY"
 }, {
   id: 4,
   name: "Zeus vs Hades",
+  slug: "wanted-dead",
   image: game4,
   players: 250,
   tag: "PRAGMATIC PLAY"
 }, {
   id: 5,
   name: "Sugar Rush",
+  slug: "sugar-rush",
   image: game5,
   players: 383,
   tag: "PRAGMATIC PLAY"
 }, {
   id: 6,
   name: "Deal With Death",
+  slug: "wanted-dead",
   image: game6,
   players: 64,
   tag: "RELAX GAME"
 }, {
   id: 7,
   name: "Big Bass Bonanza",
+  slug: "big-bass",
   image: game7,
   players: 296,
   tag: "PRAGMATIC PLAY"
 }, {
   id: 8,
   name: "Power of Ten",
+  slug: "sweet-bonanza",
   image: game1,
   players: 201,
   tag: "PRAGMATIC PLAY"
 }, {
   id: 9,
   name: "Sword Drop",
+  slug: "wanted-dead",
   image: game4,
   players: 129,
   tag: "PRAGMATIC PLAY"
@@ -103,11 +112,10 @@ export const TrendingGames = () => {
         {loading
           ? Array.from({ length: 7 }).map((_, i) => <GameCardSkeleton key={i} />)
           : games.map((game) => {
-              const slug = game.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
               return (
                 <AppLink
                   key={game.id}
-                  href={`/casino/game/${slug}`}
+                  href={`/casino/game/${game.slug}`}
                   className="flex-shrink-0 w-[110px] md:w-[136px] group hover-lift"
                 >
                   <div className="relative rounded-lg overflow-hidden mb-1">

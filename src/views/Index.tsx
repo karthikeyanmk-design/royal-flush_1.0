@@ -11,7 +11,6 @@ import { Promotions } from "@/components/Promotions";
 import { BetsTable } from "@/components/BetsTable";
 import { FAQ } from "@/components/FAQ";
 import { Footer } from "@/components/Footer";
-import { MobileNav } from "@/components/MobileNav";
 import { cn } from "@/lib/utils";
 
 const Index = () => {
@@ -64,9 +63,6 @@ const Index = () => {
         </main>
         <Footer />
       </div>
-
-      {/* Mobile Bottom Navigation */}
-      <MobileNav />
     </div>
   );
 };

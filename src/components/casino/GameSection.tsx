@@ -7,14 +7,30 @@ import { AppLink } from "@/lib/navigation";
 interface Game {
   id: number;
   name: string;
+  slug?: string;
   image: string;
   players: number;
   tag?: string;
 }
 
-// Convert game name to URL slug
-const toSlug = (name: string) =>
-  name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+// Map of known game slugs that have actual pages
+const knownSlugs: Record<string, string> = {
+  "dice": "dice", "mines": "mines", "plinko": "plinko", "crash": "crash",
+  "limbo": "limbo", "keno": "keno", "hilo": "hilo",
+  "sweet-bonanza-1000": "sweet-bonanza", "sweet-bonanza": "sweet-bonanza",
+  "gates-of-olympus-1000": "gates-of-olympus", "gates-of-olympus": "gates-of-olympus",
+  "sugar-rush-1000": "sugar-rush", "sugar-rush": "sugar-rush",
+  "wanted-dead-or-wild": "wanted-dead", "wanted-dead": "wanted-dead",
+  "big-bass-bonanza": "big-bass", "big-bass": "big-bass",
+  "crazy-time": "crazy-time", "lightning-roulette": "lightning-roulette",
+  "aviator": "aviator",
+};
+
+// Convert game name to URL slug, mapping to known pages
+const toSlug = (name: string) => {
+  const raw = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  return knownSlugs[raw] || raw;
+};
 
 interface GameSectionProps {
   title: string;
@@ -70,7 +86,7 @@ export const GameSection = ({
           : games.map((game) => (
               <AppLink
                 key={game.id}
-                href={`/casino/game/${toSlug(game.name)}`}
+                href={`/casino/game/${game.slug || toSlug(game.name)}`}
                 className="flex-shrink-0 w-[110px] md:w-[136px] group"
               >
                 <div className="relative rounded-lg overflow-hidden mb-1">

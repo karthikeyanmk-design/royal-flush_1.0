@@ -1,6 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
-import { Radio, ChevronRight, Tv, Filter, Clock } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Radio, ChevronLeft, ChevronRight, Tv, Filter, Clock } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { BetSelection } from "@/views/Sports";
 
@@ -180,6 +180,13 @@ interface LiveEventsProps {
 export const LiveEvents = ({ onSelectOdd, isSelected }: LiveEventsProps) => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: "left" | "right") => {
+    if (!scrollRef.current) return;
+    const amount = scrollRef.current.clientWidth * 0.6;
+    scrollRef.current.scrollBy({ left: direction === "left" ? -amount : amount, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1700);
@@ -196,14 +203,20 @@ export const LiveEvents = ({ onSelectOdd, isSelected }: LiveEventsProps) => {
           <Radio className="w-4 h-4 text-stake-orange" />
           <h3 className="text-sm md:text-base font-semibold">Live Events</h3>
         </div>
-        <div className="flex items-center gap-2">
-          <button className="flex items-center gap-1 px-2 py-1 text-xs text-muted-foreground hover:text-foreground bg-secondary rounded transition-colors">
+        <div className="flex items-center gap-1 md:gap-2">
+          <button className="hidden md:flex items-center gap-1 px-2 py-1 text-xs text-muted-foreground hover:text-foreground bg-secondary rounded transition-colors">
             <Filter className="w-3 h-3" />
             Filters
           </button>
-          <button className="flex items-center gap-1 px-2 py-1 text-xs text-muted-foreground hover:text-foreground bg-secondary rounded transition-colors">
+          <button className="hidden md:flex items-center gap-1 px-2 py-1 text-xs text-muted-foreground hover:text-foreground bg-secondary rounded transition-colors">
             <Clock className="w-3 h-3" />
             Standard
+          </button>
+          <button onClick={() => scroll("left")} className="p-1 md:p-1.5 bg-secondary hover:bg-muted rounded-md transition-colors">
+            <ChevronLeft className="w-3.5 h-3.5 md:w-4 md:h-4" />
+          </button>
+          <button onClick={() => scroll("right")} className="p-1 md:p-1.5 bg-secondary hover:bg-muted rounded-md transition-colors">
+            <ChevronRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
           </button>
         </div>
       </div>
@@ -241,13 +254,13 @@ export const LiveEvents = ({ onSelectOdd, isSelected }: LiveEventsProps) => {
           No live {sportTabs[activeTab]?.label} events right now
         </div>
       ) : (
-        <div className="space-y-2">
+        <div ref={scrollRef} className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible scrollbar-hide snap-x snap-mandatory md:snap-none pb-1 md:pb-0">
           {filteredMatches.map((match) => {
             const matchName = `${match.team1.name} vs ${match.team2.name}`;
             return (
               <div
                 key={match.id}
-                className="bg-card rounded-lg border border-border p-3 hover:border-primary/50 transition-colors"
+                className="bg-card rounded-lg border border-border p-3 hover:border-primary/50 transition-colors flex-shrink-0 w-[85vw] md:w-auto snap-start"
               >
                 {/* League Header */}
                 <div className="flex items-center gap-2 mb-2">

@@ -6,7 +6,6 @@ import { CasinoHero } from "@/components/casino/CasinoHero";
 import { GameSection } from "@/components/casino/GameSection";
 import { CasinoBetsTable } from "@/components/casino/CasinoBetsTable";
 import { Footer } from "@/components/Footer";
-import { MobileNav } from "@/components/MobileNav";
 import { cn } from "@/lib/utils";
 import { Video, Tv, Sparkles, Zap } from "lucide-react";
 
@@ -78,7 +77,6 @@ const LiveCasino = () => {
         </main>
         <Footer />
       </div>
-      <MobileNav />
     </div>
   );
 };

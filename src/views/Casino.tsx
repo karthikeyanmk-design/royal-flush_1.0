@@ -9,7 +9,6 @@ import { PublishersSection } from "@/components/casino/PublishersSection";
 import { TopSportsPicks } from "@/components/casino/TopSportsPicks";
 import { CasinoBetsTable } from "@/components/casino/CasinoBetsTable";
 import { Footer } from "@/components/Footer";
-import { MobileNav } from "@/components/MobileNav";
 import { cn } from "@/lib/utils";
 import { Sparkles, Zap, Video, Tv, Star, Rocket, Gift } from "lucide-react";
 
@@ -182,7 +181,6 @@ const Casino = () => {
         <Footer />
       </div>
 
-      <MobileNav />
     </div>
   );
 };

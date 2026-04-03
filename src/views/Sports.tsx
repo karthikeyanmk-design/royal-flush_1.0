@@ -12,7 +12,6 @@ import { PopularEvents } from "@/components/sports/PopularEvents";
 import { TrendingGames } from "@/components/TrendingGames";
 import { BetsTable } from "@/components/BetsTable";
 import { Footer } from "@/components/Footer";
-import { MobileNav } from "@/components/MobileNav";
 import { cn } from "@/lib/utils";
 import { X, Trash2, Receipt } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -239,7 +238,6 @@ const Sports = () => {
         </div>
       )}
 
-      <MobileNav />
     </div>
   );
 };

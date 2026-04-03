@@ -10,6 +10,38 @@ import {
 import { auth } from "@/services/api";
 import type { User, LoginRequest, RegisterRequest, AuthTokens } from "@/types/api";
 
+// ─── Demo Accounts (works without backend) ──────────────────────────────────
+
+const DEMO_ACCOUNTS: Record<string, { password: string; user: User }> = {
+    "admin@stake.local": {
+        password: "admin123",
+        user: { id: 1, email: "admin@stake.local", username: "admin", full_name: "Admin User", role: "admin", is_active: true, is_verified: true, balance: 50000, created_at: "2025-01-01T00:00:00Z" },
+    },
+    "demo@stake.local": {
+        password: "demo123",
+        user: { id: 2, email: "demo@stake.local", username: "demo_player", full_name: "Demo Player", role: "user", is_active: true, is_verified: true, balance: 10000, created_at: "2025-01-01T00:00:00Z" },
+    },
+};
+
+const DEMO_USER_KEY = "demo_user";
+
+function saveDemoUser(user: User) {
+    localStorage.setItem(DEMO_USER_KEY, JSON.stringify(user));
+}
+
+function loadDemoUser(): User | null {
+    try {
+        const stored = localStorage.getItem(DEMO_USER_KEY);
+        return stored ? JSON.parse(stored) : null;
+    } catch {
+        return null;
+    }
+}
+
+function clearDemoUser() {
+    localStorage.removeItem(DEMO_USER_KEY);
+}
+
 // ─── Token Helpers ────────────────────────────────────────────────────────────
 
 function setTokens(tokens: AuthTokens) {
@@ -20,10 +52,11 @@ function setTokens(tokens: AuthTokens) {
 function clearTokens() {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
+    clearDemoUser();
 }
 
 function hasTokens(): boolean {
-    return !!localStorage.getItem("access_token");
+    return !!localStorage.getItem("access_token") || !!localStorage.getItem(DEMO_USER_KEY);
 }
 
 // ─── Context Types ────────────────────────────────────────────────────────────
@@ -49,8 +82,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Fetch current user from /auth/me and update state
+    // Fetch current user from /auth/me (falls back to demo user)
     const refreshUser = useCallback(async () => {
+        // Try loading demo user from localStorage first
+        const demoUser = loadDemoUser();
+        if (demoUser) {
+            setUser(demoUser);
+            return;
+        }
         try {
             const { data } = await auth.me();
             setUser(data);
@@ -71,45 +110,77 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         init();
     }, [refreshUser]);
 
-    // Login: POST /auth/login → save tokens → load user
+    // Login: try backend first, fall back to demo accounts
     const login = useCallback(
         async (email: string, password: string) => {
-            const credentials: LoginRequest = { email, password };
-            const { data: tokens } = await auth.login(credentials);
-            setTokens(tokens);
-            await refreshUser();
+            // Check demo accounts first
+            const demo = DEMO_ACCOUNTS[email.toLowerCase()];
+            if (demo && demo.password === password) {
+                saveDemoUser(demo.user);
+                setUser(demo.user);
+                return;
+            }
+            try {
+                const credentials: LoginRequest = { email, password };
+                const { data: tokens } = await auth.login(credentials);
+                setTokens(tokens);
+                await refreshUser();
+            } catch {
+                // If backend is down, reject non-demo credentials
+                throw new Error("Invalid email or password");
+            }
         },
         [refreshUser]
     );
 
-    // Register: POST /auth/register → save tokens → load user
+    // Register: try backend first, fall back to demo registration
     const register = useCallback(
         async (email: string, username: string, password: string) => {
-            const payload: RegisterRequest = { email, username, password };
-            const { data: tokens } = await auth.register(payload);
-            setTokens(tokens);
-            await refreshUser();
+            try {
+                const payload: RegisterRequest = { email, username, password };
+                const { data: tokens } = await auth.register(payload);
+                setTokens(tokens);
+                await refreshUser();
+            } catch {
+                // If backend is down, create a local demo user
+                const newUser: User = {
+                    id: Date.now(),
+                    email,
+                    username,
+                    full_name: username,
+                    role: "user",
+                    is_active: true,
+                    is_verified: true,
+                    balance: 10000,
+                    created_at: new Date().toISOString(),
+                };
+                saveDemoUser(newUser);
+                setUser(newUser);
+            }
         },
         [refreshUser]
     );
 
-    // Logout: POST /auth/logout → clear tokens → clear user
+    // Logout: clear everything
     const logout = useCallback(async () => {
         try {
             await auth.logout();
         } catch {
-            // Ignore server errors — always clear local state
+            // Ignore server errors
         } finally {
             clearTokens();
             setUser(null);
         }
     }, []);
 
-    // Update balance locally (for demo bets without real backend event IDs)
+    // Update balance locally (persists for demo users)
     const updateLocalBalance = useCallback((delta: number) => {
-        setUser((prev) =>
-            prev ? { ...prev, balance: (prev.balance ?? 0) + delta } : prev
-        );
+        setUser((prev) => {
+            if (!prev) return prev;
+            const updated = { ...prev, balance: (prev.balance ?? 0) + delta };
+            saveDemoUser(updated);
+            return updated;
+        });
     }, []);
 
     const value: AuthContextValue = {

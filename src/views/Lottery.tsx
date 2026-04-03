@@ -10,7 +10,6 @@ import { RecentWinners } from "@/components/lottery/RecentWinners";
 import { PastResults } from "@/components/lottery/PastResults";
 import { LotteryFAQ } from "@/components/lottery/LotteryFAQ";
 import { Footer } from "@/components/Footer";
-import { MobileNav } from "@/components/MobileNav";
 import { cn } from "@/lib/utils";
 
 const Lottery = () => {
@@ -62,7 +61,6 @@ const Lottery = () => {
         <Footer />
       </div>
 
-      <MobileNav />
     </div>
   );
 };

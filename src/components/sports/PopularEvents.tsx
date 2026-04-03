@@ -1,6 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
-import { Flame, ChevronRight, ChevronDown, Tv, Radio } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Flame, ChevronLeft, ChevronRight, ChevronDown, Tv, Radio } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { BetSelection } from "@/views/Sports";
 
@@ -88,6 +88,13 @@ interface PopularEventsProps {
 export const PopularEvents = ({ onSelectOdd, isSelected }: PopularEventsProps) => {
   const [loading, setLoading] = useState(true);
   const [expandedLeagues, setExpandedLeagues] = useState<number[]>([1, 2, 3]);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: "left" | "right") => {
+    if (!scrollRef.current) return;
+    const amount = scrollRef.current.clientWidth * 0.6;
+    scrollRef.current.scrollBy({ left: direction === "left" ? -amount : amount, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1800);
@@ -107,10 +114,14 @@ export const PopularEvents = ({ onSelectOdd, isSelected }: PopularEventsProps) =
           <Flame className="w-4 h-4 text-stake-orange" />
           <h3 className="text-sm md:text-base font-semibold">Popular Events</h3>
         </div>
-        <button className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
-          View All
-          <ChevronRight className="w-3.5 h-3.5" />
-        </button>
+        <div className="flex items-center gap-1 md:gap-2">
+          <button onClick={() => scroll("left")} className="p-1 md:p-1.5 bg-secondary hover:bg-muted rounded-md transition-colors">
+            <ChevronLeft className="w-3.5 h-3.5 md:w-4 md:h-4" />
+          </button>
+          <button onClick={() => scroll("right")} className="p-1 md:p-1.5 bg-secondary hover:bg-muted rounded-md transition-colors">
+            <ChevronRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
+          </button>
+        </div>
       </div>
 
       {loading ? (
@@ -120,9 +131,9 @@ export const PopularEvents = ({ onSelectOdd, isSelected }: PopularEventsProps) =
           ))}
         </div>
       ) : (
-        <div className="space-y-2">
+        <div ref={scrollRef} className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible scrollbar-hide snap-x snap-mandatory md:snap-none pb-1 md:pb-0">
           {leagues.map((league) => (
-            <div key={league.id} className="bg-card rounded-lg border border-border overflow-hidden">
+            <div key={league.id} className="bg-card rounded-lg border border-border overflow-hidden flex-shrink-0 w-[85vw] md:w-auto snap-start">
               {/* League Header */}
               <button
                 onClick={() => toggleLeague(league.id)}

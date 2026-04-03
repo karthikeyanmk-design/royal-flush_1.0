@@ -67,12 +67,12 @@ export const Header = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-30 flex items-center justify-between px-4 py-3 bg-background border-b border-border">
+      <header className="sticky top-0 z-30 flex items-center justify-between px-2 py-2 md:px-4 md:py-3 bg-background border-b border-border">
         {/* Logo */}
-        <div className="flex items-center gap-4">
-          <AppLink href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <img src="/assets/logo.svg" alt="Royal Flush" className="h-8 w-auto" />
-            <h1 className="text-2xl font-bold text-accent tracking-wide cursor-pointer uppercase" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
+        <div className="flex items-center gap-2 md:gap-4 min-w-0">
+          <AppLink href="/" className="flex items-center gap-1.5 md:gap-2 hover:opacity-80 transition-opacity whitespace-nowrap">
+            <img src="/assets/logo.svg" alt="Royal Flush" className="h-6 md:h-8 w-auto" />
+            <h1 className="text-base md:text-2xl font-bold text-accent tracking-wide cursor-pointer uppercase" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
               Royal Flush
             </h1>
           </AppLink>
@@ -168,13 +168,13 @@ export const Header = () => {
             <>
               <Button
                 variant="ghost"
-                className="text-sm font-semibold text-foreground hover:bg-secondary px-4 py-2"
+                className="text-xs md:text-sm font-semibold text-foreground hover:bg-secondary px-2 md:px-4 py-1.5 md:py-2"
                 onClick={openLogin}
               >
                 Login
               </Button>
               <Button
-                className="bg-accent text-accent-foreground hover:bg-accent/90 text-sm font-semibold px-5 py-2 rounded"
+                className="bg-accent text-accent-foreground hover:bg-accent/90 text-xs md:text-sm font-semibold px-3 md:px-5 py-1.5 md:py-2 rounded"
                 onClick={openRegister}
               >
                 Register

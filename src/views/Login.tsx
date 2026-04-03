@@ -5,7 +5,6 @@ import { AppLink } from "@/lib/navigation";
 import { Sidebar } from "@/components/Sidebar";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { MobileNav } from "@/components/MobileNav";
 import { CrownLogo } from "@/components/CrownLogo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -107,7 +106,6 @@ const Login = () => {
         </main>
         <Footer />
       </div>
-      <MobileNav />
     </div>
   );
 };
